@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Class 25-4B </title>
+    <style>
+        body {
+            font-family: 'Commando'; src: url('Commando.ttf') format('truetype'); 
+            font-weight: normal;
+            font-style: normal;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 130vh;
+            background: linear-gradient(135deg, #142ea6, #0c122b);
+            color: #fff;
+            margin: 0;
+        }
+
+        header img {
+            width: 200px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 50px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .countdown-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            text-align: center;
+        }
+
+        .countdown-box {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px 50px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .count-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .count-label {
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://directives.chicagopolice.org/images/CPDc8-transparent-240px.png" alt="Chicago Police Logo">
+    </header>
+
+    <h1>Class 25-4B</h1>
+
+    <div class="countdown-container">
+        <div class="countdown-box">
+            <div class="count-label">Time Since Start (yy/mm/dd)</div>
+            <div class="count-number" id="since-years">0 years, 0 months, 0 days</div>
+            <div class="count-label">Time Since Start (days)</div>
+            <div class="count-number" id="since-days">0 days</div>
+        </div>
+        <div class="countdown-box">
+            <div class="count-label">Time Until Probation Ends</div>
+            <div class="count-number" id="until-days">0 days</div>
+        </div>
+    </div>
+
+    <script>
+        const startDate = new Date("2025-04-16"); // start date
+        const endDate = new Date("2026-10-16");   // probation end
+
+        function updateCountdown() {
+            const today = new Date();
+
+            // --- Time since start ---
+            const daysSince = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+
+            // Convert to years, months, days
+            let years = today.getFullYear() - startDate.getFullYear();
+            let months = today.getMonth() - startDate.getMonth();
+            let days = today.getDate() - startDate.getDate();
+
+            if (days < 0) {
+                months -= 1;
+                const prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+                days += prevMonth.getDate();
+            }
+            if (months < 0) {
+                years -= 1;
+                months += 12;
+            }
+
+            document.getElementById("since-years").textContent = `${years} years, ${months} months, ${days} days`;
+            document.getElementById("since-days").textContent = `${daysSince} days`;
+
+            // --- Time until probation ends ---
+            const daysUntil = Math.ceil((endDate - today) / (1000 * 60 * 60 * 24));
+            document.getElementById("until-days").textContent = `${daysUntil} days`;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
